@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">News Defender</string>
+    <string name="facebook_app_id">294520847643331</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="appHelpTitle">New Defender Help</string>
+    <string name="appHelp">This is the help screen for News Defender</string>
+    <string name="appHelpExtra"></string>
+    <string name="appDisplayName">News Defender</string>
+    <string name="appDesc">News Defender provides the user with the latest news taken from different news sources and brought together.</string>
+    <string name="appMoreInfo">For more information about News Defender or to provide feedback please email me on frazth92@gmail.com.</string>
+    <string name="appAbout">About News Defender</string>
+    <string name="appWebsite"></string>
+    <string name="developer">Developed by Faraz Tahir</string>
+    <string name="versionLabel">Current Version:</string>
+    <string name="version">1</string>
+    <string name="searchCoffeesResultsLbl">Results</string>
+    <string name="recentlyViewedEmptyMessage">No news found</string>
+    <string name="headlinesLbl">Headlines</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+</resources>

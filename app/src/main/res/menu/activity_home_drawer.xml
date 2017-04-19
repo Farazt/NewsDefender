@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <menu>
+            <item
+                android:id="@+id/sign_in"
+                android:icon="@drawable/ic_users"
+                android:title="Log in"
+
+                />
+
+        </menu>
+    </item>
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_headlines"
+            android:icon="@drawable/ic_hotnews"
+            android:title="Top Stories" />
+        <item
+            android:id="@+id/nav_sports_news"
+            android:icon="@drawable/ic_tennis"
+            android:title="Sports" />
+        <item
+            android:id="@+id/nav_tech_news"
+            android:icon="@drawable/ic_atomic"
+            android:title="Tech News" />
+        <item
+            android:id="@+id/nav_nature"
+            android:icon="@drawable/ic_balance"
+            android:title="National Geographic" />
+        <item
+            android:id="@+id/wall_street"
+            android:icon="@drawable/ic_question"
+            android:title="Wall Street Journal" />
+        <item
+            android:id="@+id/nav_reddit"
+            android:icon="@drawable/ic_reddit"
+            android:title="Reddit" />
+        <item
+            android:id="@+id/nav_financial"
+            android:icon="@drawable/ic_finance"
+            android:title="Financial Times" />
+        <item
+            android:id="@+id/nav_economist"
+            android:icon="@drawable/ic_economist"
+            android:title="Economist" />
+
+    </group>
+
+    <item android:title="Personel Area">
+        <menu>
+            <item
+                android:id="@+id/nav_save"
+                android:icon="@drawable/ic_save"
+                android:title="Saved Articles" />
+
+        </menu>
+    </item>
+
+</menu>

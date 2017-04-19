@@ -1,0 +1,47 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="fragments.NewsItemFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="575dp">
+        <TextView
+            android:paddingTop="15sp"
+
+            android:id="@+id/heading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/hello_blank_fragment"
+            android:layout_alignParentStart="true" />
+
+
+        <ImageView
+
+            android:layout_width="match_parent"
+            android:layout_height="300sp"
+            app:srcCompat="@drawable/cast_ic_notification_forward10"
+            android:layout_marginTop="16dp"
+            android:id="@+id/newsImageFromApi"
+            android:layout_below="@+id/heading"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            android:paddingTop="15sp"
+            android:id="@+id/newsDetails"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/hello_blank_fragment"
+            android:layout_below="@+id/newsImageFromApi"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="65dp" />
+
+
+    </RelativeLayout>
+
+</FrameLayout>
