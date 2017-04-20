@@ -19,7 +19,7 @@ import ie.cm.utils.NewsApiALL;
 
 public class Home extends Base
         implements NavigationView.OnNavigationItemSelectedListener {
-
+    public static NavigationView navigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,9 +31,11 @@ public class Home extends Base
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
         dialog = new ProgressDialog(this,1);
+
 
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         NewsItemFragment fragment = NewsItemFragment.newInstance();
@@ -47,6 +49,7 @@ public class Home extends Base
 
     @Override
     public void onBackPressed() {
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);

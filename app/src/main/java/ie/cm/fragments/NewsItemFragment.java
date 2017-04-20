@@ -19,11 +19,9 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
-
 import com.facebook.share.model.ShareLinkContent;
-
+import com.facebook.share.widget.ShareDialog;
 import java.util.List;
-
 import ie.cm.R;
 import ie.cm.activities.Base;
 import ie.cm.adapters.NewsListAdapter;
@@ -47,8 +45,7 @@ public class NewsItemFragment extends Fragment implements AdapterView.OnItemClic
   protected         SwipeRefreshLayout  mSwipeRefreshLayout;
   public            String                apiUrl= NewsApiALL.BBCHeadlines;
   protected         SearchView            searchView;
-
-
+  ShareDialog       shareDialog;
   public NewsItemFragment() {
     // Required empty public constructor
   }
@@ -59,13 +56,16 @@ public class NewsItemFragment extends Fragment implements AdapterView.OnItemClic
     super.onAttach(context);
     //this.activity = (Base) context;
   }
+
   public static NewsItemFragment newInstance() {
     NewsItemFragment fragment = new NewsItemFragment();
     return fragment;
   }
+
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    shareDialog=new ShareDialog(this);
 
   }
 
@@ -96,7 +96,13 @@ public class NewsItemFragment extends Fragment implements AdapterView.OnItemClic
     mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
       @Override
       public void onRefresh() {
-        NewsApi.get(mSwipeRefreshLayout,apiUrl);
+        if(Base.app.newsfeed.size()==0)
+        {
+          NewsApi.get(mSwipeRefreshLayout,apiUrl);
+        }
+        else{
+          mSwipeRefreshLayout.setRefreshing(false);
+        }
       }
     });
   }
@@ -153,13 +159,13 @@ public class NewsItemFragment extends Fragment implements AdapterView.OnItemClic
     titleBar.setVisibility(View.VISIBLE);
     titleBar.setText(this.title);
     listAdapter = new NewsListAdapter(getActivity(), Base.app.newsfeed,this);
-
     listView.setAdapter (listAdapter);
     listView.setOnItemClickListener(this);
     listView.setOnItemLongClickListener(this);
     listView.setEmptyView(getActivity().findViewById(R.id.empty_list_view));
     listAdapter.notifyDataSetChanged(); // Update the adapter
   }
+
   @Override
   public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
     final int position=i;
@@ -182,25 +188,30 @@ public class NewsItemFragment extends Fragment implements AdapterView.OnItemClic
     alert.show();
     return true;
   }
+
+  //Share The news over social Media
   @Override
   public void onClick(final View view) {
     if(view.getTag() instanceof NewsItem){
       AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-       builder.setMessage("Are you sure you want to share this Article on Facebook?")
-            .setCancelable(false)
-            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-              public void onClick(DialogInterface dialog, int id) {
-                ShareLinkContent content = new ShareLinkContent.Builder()
-                        .setContentUrl(Uri.parse(((NewsItem) view.getTag()).getUrl()))
-                        .build();
-              }
-            })
-            .setNegativeButton("No", new DialogInterface.OnClickListener() {
-              public void onClick(DialogInterface dialog, int id) {
-                dialog.cancel();
-              }
-            });
-     AlertDialog alert = builder.create();
+      builder.setMessage("Are you sure you want to share this Article on Facebook?")
+              .setCancelable(false)
+              .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                  if(ShareDialog.canShow(ShareLinkContent.class)){
+                    ShareLinkContent content = new ShareLinkContent.Builder()
+                            .setContentUrl(Uri.parse(((NewsItem) view.getTag()).getUrl()))
+                            .build();
+                    shareDialog.show(content);
+                  }
+                }
+              })
+              .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                  dialog.cancel();
+                }
+              });
+      AlertDialog alert = builder.create();
       alert.show();
     }
   }

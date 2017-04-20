@@ -22,6 +22,7 @@ public class Base extends AppCompatActivity {
 	public static NewsDefender app = NewsDefender.getInstance();
 	public static ProgressDialog dialog;
 
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -40,11 +41,9 @@ public class Base extends AppCompatActivity {
 		Dialog dialog = new Dialog(current);
 		dialog.setTitle("About New Defender");
 		dialog.setContentView(R.layout.info);
-
 		TextView currentVersion = (TextView) dialog
 				.findViewById(R.id.versionTextView);
 		currentVersion.setText("5.0");
-
 		dialog.setCancelable(true);
 		dialog.setCanceledOnTouchOutside(true);
 		dialog.show();
@@ -54,8 +53,11 @@ public class Base extends AppCompatActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.home, menu);
+
 		return true;
 	}
+
+
 
     public void menuInfo(MenuItem m)
     {

@@ -6,6 +6,8 @@ import android.util.Log;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+import com.facebook.CallbackManager;
+
 import java.util.ArrayList;
 import java.util.List;
 import ie.cm.db.DBManager;
@@ -18,12 +20,15 @@ public class NewsDefender extends Application
     public List <NewsItem>  newsfeed = new ArrayList<NewsItem>();
     public static final String TAG = NewsDefender.class.getName();
     public static Bundle fbParameters;
+    public static CallbackManager cbkManager;
+
     @Override
     public void onCreate() {
         super.onCreate();
         Log.v("News Defender", "News Defender App Started");
         mInstance = this;
         fbParameters=new Bundle();
+        cbkManager=CallbackManager.Factory.create();
         mRequestQueue = Volley.newRequestQueue(getApplicationContext());
         dbManager.open();
     }

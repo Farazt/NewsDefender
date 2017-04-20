@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +14,6 @@ import android.widget.TextView;
 
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
-import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.GraphRequest;
@@ -27,6 +27,7 @@ import org.json.JSONObject;
 
 import ie.cm.R;
 import ie.cm.activities.Base;
+import ie.cm.activities.Home;
 import ie.cm.models.User;
 
 /**
@@ -41,7 +42,7 @@ public class SignInFragment extends Fragment {
     TextView fbGender;
     TextView fbdob;
     TextView titleBar;
-    CallbackManager cbkManager;
+
     MenuItem signin;
     public SignInFragment() {
         // Required empty public constructor
@@ -63,14 +64,22 @@ public class SignInFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = null;
         v = inflater.inflate(R.layout.activity_login_fragment, container, false);
-        cbkManager=CallbackManager.Factory.create();
         profilePictureView = (ProfilePictureView) v.findViewById(R.id.friendProfilePicture);
         fbName=(TextView) v.findViewById(R.id.loginName);
         fbEmail=(TextView) v.findViewById(R.id.emailtext);
         fbGender=(TextView) v.findViewById(R.id.gender);
         fbdob=(TextView) v.findViewById(R.id.dob);
         login =(LoginButton) v.findViewById(R.id.login_button);
+        login.setPublishPermissions("publish_actions");
         login.setFragment(this);
+
+        try{
+            if(!Base.app.dbManager.get().getFbName().isEmpty()){
+                updateMenuTitles(Base.app.dbManager.get().getFbName());
+            }}catch (Exception e){
+            updateMenuTitles("Log in");
+        }
+
         titleBar = (TextView)getActivity().findViewById(R.id.recentAddedBarTextView);
         titleBar.setVisibility(v.GONE);
         fbName.setVisibility(v.GONE);
@@ -87,8 +96,14 @@ public class SignInFragment extends Fragment {
         }
         return v;
     }
+    private void updateMenuTitles(String title) {
+        Menu menu= Home.navigationView.getMenu();
+        MenuItem menuItem = menu.findItem(R.id.sign_in);
+        menuItem.setTitle(title);
+    }
 
     private void attachLogin(){
+
         AccessTokenTracker accessTokenTracker = new AccessTokenTracker() {
             @Override
             protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken,
@@ -100,24 +115,22 @@ public class SignInFragment extends Fragment {
                     Base.app.dbManager.deleteUser(Base.app.dbManager.get().getFbID());}
                     catch(Exception e){
                         Log.i("Delete","Deleted"+ e.toString());
+                        titleBar.setText("Log In");
+                        //titleBar.setText("");
+                        Fragment currentFragment = getFragmentManager().findFragmentByTag("SignInFragment");
+                        FragmentTransaction fragTransaction = getFragmentManager().beginTransaction();
+                        fragTransaction.detach(currentFragment);
+                        fragTransaction.attach(currentFragment);
+                        fragTransaction.commit();
                     }
-                    titleBar.setText("Log In");
-                    //titleBar.setText("");
-                    Fragment currentFragment = getFragmentManager().findFragmentByTag("SignInFragment");
-                    FragmentTransaction fragTransaction = getFragmentManager().beginTransaction();
-                    fragTransaction.detach(currentFragment);
-                    fragTransaction.attach(currentFragment);
-                    fragTransaction.commit();
-
-                    //fbtext.setText(Base.app.dbManager.get().getFbID());
                 }
             }
         };
-        login.registerCallback(cbkManager, new FacebookCallback<LoginResult>() {
+        login.registerCallback(Base.app.cbkManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 // Log.i("Login","Login Successful"+ loginResult);
-                GraphRequest request1 = GraphRequest.newMeRequest(
+                GraphRequest request = GraphRequest.newMeRequest(
                         loginResult.getAccessToken(),
                         new GraphRequest.GraphJSONObjectCallback() {
                             @Override
@@ -125,7 +138,6 @@ public class SignInFragment extends Fragment {
                                     JSONObject object,
                                     GraphResponse response) {
                                 Log.v("LoginActivity Response ", response.toString());
-
                                 try {
                                     String name = object.getString("name");
                                     String email= object.getString("email");
@@ -140,9 +152,6 @@ public class SignInFragment extends Fragment {
                                     fragTransaction.detach(currentFragment);
                                     fragTransaction.attach(currentFragment);
                                     fragTransaction.commit();
-
-
-
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
@@ -150,11 +159,8 @@ public class SignInFragment extends Fragment {
                         });
                 Bundle parameters = new Bundle();
                 parameters.putString("fields", "id,name,email,gender, birthday");
-                request1.setParameters(parameters);
-                request1.executeAsync();
-
-
-
+                request.setParameters(parameters);
+                request.executeAsync();
             }
 
             @Override
@@ -171,12 +177,10 @@ public class SignInFragment extends Fragment {
             }
         });
         accessTokenTracker.startTracking();
-
-
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        cbkManager.onActivityResult(requestCode,resultCode,data);
+        Base.app.cbkManager.onActivityResult(requestCode,resultCode,data);
     }
 }
