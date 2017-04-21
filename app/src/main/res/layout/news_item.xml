@@ -48,7 +48,7 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/ic_share"
+        app:srcCompat="@drawable/ic_menu_share"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:id="@+id/share"

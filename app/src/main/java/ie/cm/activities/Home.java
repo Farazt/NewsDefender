@@ -33,20 +33,13 @@ public class Home extends Base
         toggle.syncState();
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
         dialog = new ProgressDialog(this,1);
-
-
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         NewsItemFragment fragment = NewsItemFragment.newInstance();
         fragment.setTitle("Headlines");
         ft.replace(R.id.homeFrame, fragment);
         ft.commit();
-
     }
-
-
-
     @Override
     public void onBackPressed() {
 
@@ -57,8 +50,6 @@ public class Home extends Base
             super.onBackPressed();
         }
     }
-
-
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -152,11 +143,8 @@ public class Home extends Base
             ft.addToBackStack(null);
             ft.commit();
         }
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
-
 }

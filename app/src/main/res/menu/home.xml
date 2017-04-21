@@ -24,12 +24,5 @@
         app:showAsAction="never"
         android:onClick="menuInfo"/>
 
-    <item android:id="@+id/menu_help"
-        android:icon="@drawable/help"
-        android:title="Help"
-        android:orderInCategory="100"
-        app:showAsAction="never"
-        android:onClick="menuHelp"/>
-
 
 </menu>

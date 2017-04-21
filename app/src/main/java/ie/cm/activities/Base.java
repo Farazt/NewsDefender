@@ -1,7 +1,6 @@
 package ie.cm.activities;
 import android.app.Activity;
 import android.app.Dialog;
-import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,7 +12,6 @@ import android.widget.TextView;
 import com.facebook.FacebookSdk;
 
 import ie.cm.R;
-import ie.cm.fragments.HelpFragment;
 import ie.cm.main.NewsDefender;
 
 
@@ -21,7 +19,6 @@ public class Base extends AppCompatActivity {
 
 	public static NewsDefender app = NewsDefender.getInstance();
 	public static ProgressDialog dialog;
-
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -48,35 +45,19 @@ public class Base extends AppCompatActivity {
 		dialog.setCanceledOnTouchOutside(true);
 		dialog.show();
 	}
-
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.home, menu);
-
 		return true;
 	}
-
-
-
-    public void menuInfo(MenuItem m)
+	public void menuInfo(MenuItem m)
     {
         openInfoDialog(this);
     }
 
-    public void menuHelp(MenuItem m)
-    {
-		FragmentTransaction ft = getFragmentManager().beginTransaction();
-		HelpFragment fragment = HelpFragment.newInstance();
-		ft.replace(R.id.homeFrame, fragment);
-		ft.addToBackStack(null);
-		ft.commit();
-    }
-
-    public void menuHome(MenuItem m)
+	public void menuHome(MenuItem m)
     {
         goToActivity(this, Home.class, null);
     }
-
 
 }
