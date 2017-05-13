@@ -29,7 +29,6 @@ public class NewsListAdapter extends ArrayAdapter<NewsItem> {
     this.newsFeed=coffeeList;
     this.context=context;
   }
-
   public NewsListAdapter(Context context,
                          List<NewsItem> coffeeList, OnClickListener shareListener) {
     super(context, R.layout.news_item, coffeeList);
@@ -37,9 +36,8 @@ public class NewsListAdapter extends ArrayAdapter<NewsItem> {
     this.context=context;
     this.shareListener=shareListener;
   }
-
   @Override
-    public View getView(int position, View convertView, ViewGroup parent){
+  public View getView(int position, View convertView, ViewGroup parent){
     LayoutInflater inflater = (LayoutInflater) context
             .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     if(convertView==null){
@@ -54,9 +52,7 @@ public class NewsListAdapter extends ArrayAdapter<NewsItem> {
       TextView desc=(TextView) convertView.findViewById(R.id.desc);
       heading.setText(currentItem.getNewsHeading());
       desc.setText(currentItem.getNewsDescSmall());
-      //newsImage.setImageResource(R.mipmap.ic_launcher);
       Picasso.with(this.context).load(currentItem.getImageID()).into(newsImage);
-
       return convertView;
 
     }

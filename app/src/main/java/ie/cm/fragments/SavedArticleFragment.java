@@ -12,9 +12,13 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
 import ie.cm.R;
 import ie.cm.activities.Base;
 import ie.cm.adapters.NewsListAdapter;
+import ie.cm.api.NewsApi;
+import ie.cm.api.VolleyListener;
 import ie.cm.models.NewsItem;
 
 /**
@@ -22,7 +26,7 @@ import ie.cm.models.NewsItem;
  *
  */
 
-public class SavedArticleFragment extends Fragment implements AdapterView.OnItemLongClickListener{
+public class SavedArticleFragment extends Fragment implements AdapterView.OnItemLongClickListener,VolleyListener {
 
     protected static NewsListAdapter listAdapter;
     protected ListView listView;
@@ -30,6 +34,8 @@ public class SavedArticleFragment extends Fragment implements AdapterView.OnItem
     protected         String              title;
     public            boolean             favourites = false;
     protected TextView titleBar;
+    List<NewsItem> cloud_news = new ArrayList<NewsItem>();
+
     //protected SwipeRefreshLayout mSwipeRefreshLayout;
 
     public SavedArticleFragment() {
@@ -39,26 +45,21 @@ public class SavedArticleFragment extends Fragment implements AdapterView.OnItem
     public static SavedArticleFragment newInstance() {
         SavedArticleFragment fragment = new SavedArticleFragment();
         return fragment;
-    }
 
+    }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.i("Size app","Here"+ Base.app.newsfeed);
     }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View v = null;
         v = inflater.inflate(R.layout.fragment_home, container, false);
         listView = (ListView) v.findViewById(R.id.newsList);
         backgroundtext=(TextView)v.findViewById(R.id.empty_list_view);
         Base.app.newsfeed=Base.app.dbManager.getAll();
         this.updateUI();
-        //mSwipeRefreshLayout =   (SwipeRefreshLayout) v.findViewById(R.id.refresh_layout);
-        //setSwipeRefreshLayout();
         return v;
     }
     public void setTitle(String title){
@@ -66,10 +67,22 @@ public class SavedArticleFragment extends Fragment implements AdapterView.OnItem
     }
 
     public void updateUI() {
+        if(Base.app.newsfeed.size()==0 ){
+            NewsApi.getSavedNews("/api/newsItem/");
+            if(cloud_news.size()==Base.app.dbManager.getAll().size()){
+                if(Base.app.dbManager.getAll().size()==0){
+                backgroundtext.setText("No Articles Saved");}
 
-        if(Base.app.newsfeed.size()==0){
-                backgroundtext.setText("No Articles Saved");
+            }
+            else if(cloud_news.size()>0 && Base.app.dbManager.getAll().size()==0){
+                for(NewsItem item:cloud_news){
+                    Base.app.newsfeed.add(item);
+                    Base.app.dbManager.insert(item);
+                }
+            }
+
         }
+
         titleBar = (TextView)getActivity().findViewById(R.id.recentAddedBarTextView);
         titleBar.setText(this.title);
         listAdapter = new NewsListAdapter(getActivity(), Base.app.newsfeed);
@@ -90,10 +103,10 @@ public class SavedArticleFragment extends Fragment implements AdapterView.OnItem
                     public void onClick(DialogInterface dialog, int id) {
                         NewsItem currentItem=Base.app.newsfeed.get(position);
                         Log.i("my-tag","Current item=" + currentItem.getNewsHeading());
+                        NewsApi.delete("/api/newsItem/"+currentItem.getCloudId());
                         Base.app.dbManager.delete(currentItem.getNewsId());
                         listAdapter.newsFeed.remove(currentItem); // update adapters data
                         listAdapter.notifyDataSetChanged();
-
                     }
                 })
                 .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -106,5 +119,16 @@ public class SavedArticleFragment extends Fragment implements AdapterView.OnItem
 
 
         return false;
+    }
+
+    @Override
+    public void setList(List list) {
+        cloud_news=list;
+        Log.i("News Size Cloud","Cloud"+cloud_news.size());
+    }
+
+    @Override
+    public void setCloudValue(String Url, String cloudid) {
+
     }
 }

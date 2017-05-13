@@ -14,9 +14,10 @@ public class DBDesigner extends SQLiteOpenHelper
 	public static final String COLUMN_DATE = "date";
 	public static final String COLUMN_TIME = "time";
 	public static final String COLUMN_ImageURL = "imageUrl";
-	
+	public static final String COLUMN_newsURL = "newsUrl";
+
 	private static final String DATABASE_NAME = "newsItem.db";
-	private static final int DATABASE_VERSION = 5;
+	private static final int DATABASE_VERSION = 8;
 
 	//DB Fiedlds for User Table
 	public	 static final String TABLE_NEWS_USER="table_user_table";
@@ -25,6 +26,7 @@ public class DBDesigner extends SQLiteOpenHelper
 	public static final String COLUMN_EMAIL="email";
 	public static final String COLUMN_GENDER="gender";
 	public static final String COLUMN_DOB="dob";
+	public static final String COLUMN_CLOUD_ID="cloudid";
 	//USER TABLE
 	private static final String DATABASE_CREATE_TABLE_USER = "create table "
 			+ TABLE_NEWS_USER + "( " + COLUMN_FBID + " text, "
@@ -41,6 +43,8 @@ public class DBDesigner extends SQLiteOpenHelper
 			+ COLUMN_DESCRIPTION + " text not null,"
 			+ COLUMN_DATE + " text,"
 			+ COLUMN_TIME + " text not null,"
+			+ COLUMN_newsURL + " text,"
+			+ COLUMN_CLOUD_ID + " text,"
 			+ COLUMN_ImageURL + " text not null);"; //SQLite doesn't support boolean types
 		
 	public DBDesigner(Context context) {

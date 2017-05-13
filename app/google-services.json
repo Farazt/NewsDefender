@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "328513854593",
+    "project_id": "firebase-newsdefender"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:328513854593:android:d15577af3f2220ae",
+        "android_client_info": {
+          "package_name": "ie.cm"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "328513854593-drpj6ja7o8vo8hg78s6pr4fv3omb7i7b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ie.cm",
+            "certificate_hash": "7a1c601aad855fc0333d50988aa95e80a1c170ee"
+          }
+        },
+        {
+          "client_id": "328513854593-6mkcgjn5d4afd41ba4pak75clv400lo0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCIQNi9AbjDlNUfT6x5rZlbeR4vLkUZwlM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

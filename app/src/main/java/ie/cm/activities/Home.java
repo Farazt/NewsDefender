@@ -30,10 +30,11 @@ public class Home extends Base
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
+
+        dialog = new ProgressDialog(this,1);
         toggle.syncState();
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        dialog = new ProgressDialog(this,1);
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         NewsItemFragment fragment = NewsItemFragment.newInstance();
         fragment.setTitle("Headlines");
@@ -53,8 +54,6 @@ public class Home extends Base
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        // http://stackoverflow.com/questions/32944798/switch-between-fragments-with-onnavigationitemselected-in-new-navigation-drawer
         int id = item.getItemId();
         Fragment fragment;
         FragmentTransaction ft = getFragmentManager().beginTransaction();
@@ -63,13 +62,12 @@ public class Home extends Base
             ft.replace(R.id.homeFrame, fragment,"SignInFragment");
             ft.addToBackStack(null);
             ft.commit();
-
         }
         else if (id == R.id.nav_headlines) {
             fragment = NewsItemFragment.newInstance();
             Base.app.newsfeed.clear();
             ((NewsItemFragment)fragment).setTitle("Headlines");
-            ft.replace(R.id.homeFrame, fragment);
+            ft.replace(R.id.homeFrame, fragment,"HomeFragment");
             ft.addToBackStack(null);
             ft.commit();
         } else if (id == R.id.nav_sports_news) {
@@ -80,7 +78,6 @@ public class Home extends Base
             ft.replace(R.id.homeFrame, fragment);
             ft.addToBackStack(null);
             ft.commit();
-
         } else if (id == R.id.nav_tech_news) {
             fragment = NewsItemFragment.newInstance();
             Base.app.newsfeed.clear();
@@ -89,7 +86,6 @@ public class Home extends Base
             ft.replace(R.id.homeFrame, fragment);
             ft.addToBackStack(null);
             ft.commit();
-
         } else if (id == R.id.nav_nature) {
             fragment = NewsItemFragment.newInstance();
             Base.app.newsfeed.clear();
@@ -98,7 +94,6 @@ public class Home extends Base
             ft.replace(R.id.homeFrame, fragment);
             ft.addToBackStack(null);
             ft.commit();
-
         } else if (id == R.id.wall_street) {
             fragment = NewsItemFragment.newInstance();
             Base.app.newsfeed.clear();

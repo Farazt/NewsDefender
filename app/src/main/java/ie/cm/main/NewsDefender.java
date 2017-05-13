@@ -7,20 +7,25 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.facebook.CallbackManager;
-
 import java.util.ArrayList;
 import java.util.List;
 import ie.cm.db.DBManager;
 import ie.cm.models.NewsItem;
+//import com.kinvey.android.Client;
+
 
 public class NewsDefender extends Application
-{   public DBManager dbManager=new DBManager(this);
+{
+    public DBManager dbManager=new DBManager(this);
     private RequestQueue mRequestQueue;
     private static NewsDefender mInstance;
     public List <NewsItem>  newsfeed = new ArrayList<NewsItem>();
     public static final String TAG = NewsDefender.class.getName();
     public static Bundle fbParameters;
     public static CallbackManager cbkManager;
+   // final Client mKinveyClient = new Client.Builder("kid_r1Kmbnggb",
+     //       "34f740edbc4b4fec811bc91aaa36cdc0",
+    //        this.getApplicationContext()).build();
 
     @Override
     public void onCreate() {

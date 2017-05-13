@@ -16,7 +16,7 @@
     <color name="appFooterBGColor">#dedede</color>
 
     <!-- Font Colours -->
-    <color name="appFontColor">#363737</color>
+    <color name="appFontColor">#cccccc</color>
     <color name="headerFontColor">#ffffff</color>
     <color name="bannerFontColor">#ffffff</color>
     <color name="activeFontColor">#ffffff</color>

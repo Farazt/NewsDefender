@@ -8,6 +8,7 @@
         android:title="Search..."
         app:actionViewClass="android.widget.SearchView"
         app:showAsAction="always"
+
         />
     <item android:id="@+id/menu_home"
         android:icon="@drawable/home"
@@ -23,6 +24,10 @@
         android:orderInCategory="100"
         app:showAsAction="never"
         android:onClick="menuInfo"/>
-
+    <item android:id="@+id/logout"
+        android:title="Logout"
+        android:orderInCategory="100"
+        app:showAsAction="never"
+        android:onClick="logout"/>
 
 </menu>

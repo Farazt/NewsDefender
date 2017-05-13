@@ -37,6 +37,7 @@ public class DBManager {
 		values.put(DBDesigner.COLUMN_DATE, nI.getDate());
 		values.put(DBDesigner.COLUMN_TIME, nI.getTime());
 		values.put(DBDesigner.COLUMN_ImageURL, nI.getImageID());
+		values.put(DBDesigner.COLUMN_newsURL, nI.getUrl());
 		long insertId = database.insert(DBDesigner.TABLE_NEWS_ITEM, null,
 				values);
 	}
@@ -47,7 +48,6 @@ public class DBManager {
 		values.put(DBDesigner.COLUMN_EMAIL, user.getEmail());
 		values.put(DBDesigner.COLUMN_GENDER, user.getGender());
 		values.put(DBDesigner.COLUMN_DOB, user.getBirthday());
-
 		long insertId = database.insert(DBDesigner.TABLE_NEWS_USER, null,
 				values);
 		Log.i("User Inserted","Inserted Id="+ insertId);
@@ -84,7 +84,9 @@ public class DBManager {
 		nwItem.setNewsDesc(cursor.getString(2));
 		nwItem.setDate(cursor.getString(3));
 		nwItem.setTime(cursor.getString(4)) ;
-		nwItem.setImageID(cursor.getString(5));
+		nwItem.setUrl(cursor.getString(5));
+		nwItem.setCloudId(cursor.getString(6));
+		nwItem.setImageID(cursor.getString(7));
 		return nwItem;
 	}
 	public void deleteUser(String id){
@@ -108,45 +110,24 @@ public class DBManager {
 	}
 
 
+	public void update(NewsItem nI) {
+		// TODO Auto-generated method stub
+		ContentValues values = new ContentValues();
+		values.put(DBDesigner.COLUMN_DESCRIPTION, nI.getNewsDesc());
+		values.put(DBDesigner.COLUMN_HEADING, nI.getNewsHeading());
+		values.put(DBDesigner.COLUMN_DATE, nI.getDate());
+		values.put(DBDesigner.COLUMN_TIME, nI.getTime());
+		values.put(DBDesigner.COLUMN_ImageURL, nI.getImageID());
+		values.put(DBDesigner.COLUMN_CLOUD_ID, nI.getCloudId());
+		long insertId = database
+				.update(DBDesigner.TABLE_NEWS_ITEM,
+						values,
+						DBDesigner.COLUMN_ID + " = "
+								+ nI.getNewsId(), null);
 
-/*
-	public List<Coffee> getFavourites() {
-		List<Coffee> coffees = new ArrayList<Coffee>();
-		Cursor cursor = database.rawQuery("SELECT * FROM "
-				+ DBDesigner.TABLE_COFFEE + " WHERE "
-				+ DBDesigner.COLUMN_FAV + " = 1", null);
-		cursor.moveToFirst();
-		while (!cursor.isAfterLast()) {
-			Coffee pojo = toCoffee(cursor);
-			coffees.add(pojo);
-			cursor.moveToNext();
-		}
-		// Make sure to close the cursor
-		cursor.close();
-		return coffees;
-	}
-	
-	private Coffee toCoffee(Cursor cursor) {
-		Coffee pojo = new Coffee();
-		pojo.coffeeId = cursor.getInt(0);
-		pojo.name = cursor.getString(1);
-		pojo.shop = cursor.getString(2);
-		pojo.price = cursor.getDouble(3);
-		pojo.rating = cursor.getDouble(4);
-		pojo.favourite = (cursor.getInt(5) == 1) ? true : false;
-
-		return pojo;
 	}
 
-	public void setupList() {
-		Coffee c1 = new Coffee("Mocca Latte", "Ardkeen Stores", 4, 2.99, false);
-		Coffee c2 = new Coffee("Espresso", "Tescos Stores",3.5, 1.99, true);
-		Coffee c3 = new Coffee("Standard Black", "Ardkeen Stores",2.5, 1.99, true);
-		Coffee c4 = new Coffee("Cappuccino", "Spar Shop",2.5, 1.49, false);
 
-		insert(c1);
-		insert(c2);
-		insert(c3);
-		insert(c4);
-	}*/
+
+
 }

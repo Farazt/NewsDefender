@@ -120,7 +120,8 @@ public class NewsDetailsFragment extends Fragment implements VolleyListener {
     public void setList(List list) {
         Base.app.newsfeed = list;
     }
-
+    @Override
+    public void setCloudValue(String Url, String cloudid){};
 
 
 

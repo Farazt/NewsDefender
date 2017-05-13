@@ -14,8 +14,10 @@ public class NewsItem {
     private String imageID;
     private boolean favourite;
     private int newsId;
+    private String cloudId;
 
-    public NewsItem(String newsHeading, String newsDesc, String date, String time, String url, String imageID,int id) {
+
+    public NewsItem(String newsHeading, String newsDesc, String date, String time, String url, String imageID,int id,int cloudid) {
         this.newsHeading = newsHeading;
         this.imageID = imageID;
         this.url = url;
@@ -35,7 +37,9 @@ public class NewsItem {
 
     }
     public NewsItem(){}
-
+    public void setCloudId(String id){
+        this.cloudId=id;
+    }
     public void setNewsId(int newsId) {
         this.newsId = newsId;
     }
@@ -73,6 +77,9 @@ public class NewsItem {
         int length=(int)(this.newsDesc.length()/3);
         this.newsDescSmall=this.newsDesc.substring(0,length)+"....";
         return newsDescSmall;
+    }
+    public String getCloudId(){
+        return this.cloudId;
     }
     public String getTime() {
         return time;

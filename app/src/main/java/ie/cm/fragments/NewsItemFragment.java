@@ -46,37 +46,35 @@ public class NewsItemFragment extends Fragment implements AdapterView.OnItemClic
   public            String                apiUrl= NewsApiALL.BBCHeadlines;
   protected         SearchView            searchView;
   ShareDialog       shareDialog;
-  public NewsItemFragment() {
-    // Required empty public constructor
-  }
 
+  public NewsItemFragment() {
+    //Required empty public constructor
+  }
   @Override
   public void onAttach(Context context)
   {
     super.onAttach(context);
-    //this.activity = (Base) context;
+
   }
 
   public static NewsItemFragment newInstance() {
     NewsItemFragment fragment = new NewsItemFragment();
     return fragment;
   }
-
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    setHasOptionsMenu(true);
     shareDialog=new ShareDialog(this);
-
   }
 
   @Override
   public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
       super.onCreateOptionsMenu(menu, inflater);
-    MenuInflater inflaterM=inflater;
-      inflaterM.inflate(R.menu.home,menu);
-    MenuItem item=menu.findItem(R.id.menu_search);
-      searchView=(SearchView) item.getActionView();
-    searchLists();
+     MenuItem item=menu.findItem(R.id.menu_search);
+     searchView=(SearchView) item.getActionView();
+     searchLists();
+
   }
 
   @Override
@@ -144,6 +142,23 @@ public class NewsItemFragment extends Fragment implements AdapterView.OnItemClic
     ft.addToBackStack(null);
     ft.commit();
   }
+
+  @Override
+  public void setCloudValue(String url_cloud, String cloud_id){
+    int size=Base.app.dbManager.getAll().size();
+    if(size!=0){
+      List<NewsItem> items_news=Base.app.dbManager.getAll();
+      for(NewsItem item:items_news){
+        if(item.getUrl().equals(url_cloud)){
+          item.setCloudId(cloud_id);
+          Log.i("ImageId","="+item.getImageID());
+          Log.i("cloudId","="+item.getCloudId());
+          Base.app.dbManager.update(item);
+        }
+      }
+      }
+    }
+
   @Override
   public void setList(List list) {
     Base.app.newsfeed = list;
@@ -176,7 +191,10 @@ public class NewsItemFragment extends Fragment implements AdapterView.OnItemClic
               public void onClick(DialogInterface dialog, int id) {
                 NewsItem currentItem=Base.app.newsfeed.get(position);
                 Log.i("my-tag","Current item=" + currentItem.getNewsHeading());
+                Log.i("my-tag","URL_Current=" + currentItem.getUrl());
+
                 Base.app.dbManager.insert(currentItem);
+                NewsApi.post("/api/newsItem",currentItem);
               }
             })
             .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -192,6 +210,7 @@ public class NewsItemFragment extends Fragment implements AdapterView.OnItemClic
   //Share The news over social Media
   @Override
   public void onClick(final View view) {
+
     if(view.getTag() instanceof NewsItem){
       AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
       builder.setMessage("Are you sure you want to share this Article on Facebook?")
@@ -225,8 +244,10 @@ public class NewsItemFragment extends Fragment implements AdapterView.OnItemClic
 
         @Override
         public boolean onQueryTextChange(String s) {
-            listAdapter.getFilter().filter(s);
-            return false;
+          Log.i("Search","String search"+ "="+ s);
+
+          listAdapter.getFilter().filter(s);
+          return false;
         }
     });
   }
